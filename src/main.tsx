@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from "uuid"
 import { useEffect, useState } from 'react';
-import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Main(){
@@ -54,8 +56,8 @@ export default function Main(){
     function listContructor({list}:{list:any[]}){
         return list.map((item)=> (
         <View style={styles.listBody}>
-            <Text style = {styles.content} key={Math.random()}>data: {item.date}</Text>
-            <Text style = {styles.content} key={Math.random()}> imc: {item.imc} </Text>
+            <Text style = {styles.content} key={uuidv4()}>data: {item.date}</Text>
+            <Text style = {styles.content} key={uuidv4()}> imc: {item.imc} </Text>
         </View>
         ))
     }
