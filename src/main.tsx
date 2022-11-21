@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from "uuid"
 import { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Main(){
@@ -44,7 +44,7 @@ export default function Main(){
         const imcList = await imcListGet()
         
         if(imc > 0) {
-            imcList.push({date: new Date().toLocaleDateString(), imc: imc})
+            imcList.push({id: uuidv4(),date: new Date().toLocaleDateString(), imc: imc})
             if(imcList.length>5){
                 imcList.shift()
             }
@@ -54,12 +54,7 @@ export default function Main(){
     }
 
     function listContructor({list}:{list:any[]}){
-        return list.map((item)=> (
-        <View style={styles.listBody}>
-            <Text style = {styles.content} key={uuidv4()}>data: {item.date}</Text>
-            <Text style = {styles.content} key={uuidv4()}> imc: {item.imc} </Text>
-        </View>
-        ))
+        return <FlatList style= {styles.listBody} data={list} keyExtractor= {(item:{date:string, imc:number}) => uuidv4()} renderItem={({item}) => {return <Text style= {styles.content}>data: {item.date}     imc: {item.imc}</Text>}}/> 
     }
 
     return(
@@ -110,10 +105,9 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 12,
         fontWeight: 'bold',
-        alignSelf: 'center'    
+        alignSelf: 'center',
     },
     listBody:{
-        alignItems: 'center',
         flexDirection: 'row',
     },
     content: {
@@ -126,8 +120,9 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 25,
         marginTop:100,
+        marginBottom:385,
         paddingBottom:10,
         paddingRight:8,
-        paddingLeft:8
+        paddingLeft:8,
     }
   });
